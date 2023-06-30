@@ -1,0 +1,42 @@
+version: "3"
+services:
+  es-7.9.0:
+    image: docker_es:7.9.0
+    container_name: es-7.9.0
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ulimit:
+      - nofile=65535:65535
+      - memlock=-1:-1
+    volumes:
+      - /home/adminct/Tuanvd/docker-es_37/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/adminct/Tuanvd/docker-es_37/data:/usr/share/elasticsearch/data
+    ports:
+     - 9200:9200
+     - 9300:9300
+
+    command:
+      - "chmod 777 -R /usr/share/elasticsearch/config/*"
+      - "/usr/share/elasticsearch/bin/elasticsearch"
+    networks:
+      - default
+
+  # kibana-7.9.0:
+  #   image: docker_kibana-7.9.0
+  #   container_name: kibana-7.9.0
+  #   restart: always
+  #   depend: es-7.9.0
+  #   logging:
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
+
+  #   volumes:
+  #     - /home/adminct/Tuanvd/docker_kibana-7.9.0/kibana.yml:/usr/share/kibana-7.9.0-linux-x86_64/config/kibana.yml
+  #   ports:
+  #     - 5601:5601
+     
+networks:
